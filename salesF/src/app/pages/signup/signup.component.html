@@ -1,0 +1,10 @@
+<h2>Inscription</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <input formControlName="username" placeholder="Nom d'utilisateur" />
+  <input formControlName="password" type="password" placeholder="Mot de passe" />
+  <button type="submit">S'inscrire</button>
+</form>
+
+<div *ngIf="message" [style.color]="message.includes('succès') ? 'green' : 'red'" style="margin-top: 10px;">
+  {{ message }}
+</div>
