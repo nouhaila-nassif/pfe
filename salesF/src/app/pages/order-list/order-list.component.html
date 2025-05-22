@@ -1,0 +1,55 @@
+<h2>Créer une nouvelle commande</h2>
+<form (ngSubmit)="createOrder()" #orderForm="ngForm">
+  <label>
+    Produit:
+    <input type="text" name="product" [(ngModel)]="newOrder.product" required />
+  </label>
+  <br />
+  <label>
+    Quantité:
+    <input type="number" name="quantity" [(ngModel)]="newOrder.quantity" required min="1" />
+  </label>
+  <br />
+  <label>
+    Prix (€):
+    <input type="number" name="price" [(ngModel)]="newOrder.price" required min="0" step="0.01" />
+  </label>
+  <br />
+  <button type="submit" [disabled]="orderForm.invalid">Créer la commande</button>
+</form>
+
+<h2>Liste des commandes</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Produit</th>
+      <th>Quantité</th>
+      <th>Prix</th>
+      <th>Statut</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of orders">
+      <td>{{ order.id }}</td>
+      <td>{{ order.product }}</td>
+      <td>{{ order.quantity }}</td>
+      <td>{{ order.price }} €</td>
+      <td>{{ order.status }}</td>
+      <td>
+        <button (click)="viewOrder(order.id!)">Détails</button>
+        <button (click)="cancelOrder(order.id!)" *ngIf="order.status === 'EN_ATTENTE'">Annuler</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="selectedOrder">
+  <h3>Détails de la commande</h3>
+  <p><strong>Produit:</strong> {{ selectedOrder?.product }}</p>
+  <p><strong>Quantité:</strong> {{ selectedOrder?.quantity }}</p>
+  <p><strong>Prix:</strong> {{ selectedOrder?.price }}</p>
+  <p><strong>Statut:</strong> {{ selectedOrder?.status }}</p>
+</div>

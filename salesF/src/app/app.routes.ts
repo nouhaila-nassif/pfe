@@ -6,6 +6,10 @@ export const routes: Routes = [
     path: 'products',
     loadComponent: () => import('./pages/product-list/product-list.component').then(m => m.ProductListComponent)
   },
+{
+  path: 'orders',
+  loadComponent: () => import('./pages/order-list/order-list.component').then(m => m.OrderListComponent)
+},
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
  {
