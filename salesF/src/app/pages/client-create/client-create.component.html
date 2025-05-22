@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <input formControlName="name" placeholder="Nom du client" />
+  <select formControlName="clientTypeName" required>
+  <option value="" disabled selected>Sélectionnez un type</option>
+  <option value="WHS">WHS</option>
+  <option value="HFS">HFS</option>
+  <option value="SMM">SMM</option>
+  <option value="PERF">PERF</option>
+  <option value="livreur">livreur</option>
+</select>
+  <input formControlName="routeId" type="number" placeholder="ID Route" />
+  <button type="submit">Créer client</button>
+</form>
+<p *ngIf="errorMessage" style="color:red;">{{ errorMessage }}</p>
+<p *ngIf="successMessage" style="color:green;">{{ successMessage }}</p>

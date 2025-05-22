@@ -14,33 +14,36 @@ export class LoginComponent {
   form: FormGroup;
   message: string | null = null;
 
-
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router
   ) {
-    // Initialisation correcte dans le constructeur
     this.form = this.fb.group({
-  username: ['', Validators.required],
-  password: ['', Validators.required]
-});
+      username: ['', Validators.required],  // clé 'username'
+      password: ['', Validators.required]
+    });
   }
 
-    onSubmit() {
-    if (this.form.invalid) return;
+  onSubmit() {
+    if (this.form.invalid) {
+      this.message = "Veuillez remplir tous les champs.";
+      return;
+    }
 
     this.auth.login(this.form.value).subscribe({
       next: (res) => {
-        localStorage.setItem('token', res.token);
+        localStorage.setItem('token', res.token); // stockage du token
         this.message = "Connexion réussie !";
-        // Par exemple, rediriger après 1 seconde
-        setTimeout(() => this.router.navigate(['/dashboard']), 1000);
+
+        setTimeout(() => {
+          this.router.navigate(['/clients']);  // redirection après connexion
+        }, 1000);
+
       },
-      error: (err) => {
+      error: () => {
         this.message = "Échec de la connexion, vérifiez vos identifiants.";
       }
     });
   }
-
 }

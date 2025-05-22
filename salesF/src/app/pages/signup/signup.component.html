@@ -1,10 +1,55 @@
-<h2>Inscription</h2>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <input formControlName="username" placeholder="Nom d'utilisateur" />
-  <input formControlName="password" type="password" placeholder="Mot de passe" />
-  <button type="submit">S'inscrire</button>
-</form>
+<form (ngSubmit)="onSubmit()" #signupForm="ngForm" novalidate>
+  <div>
+    <label for="username">Nom d'utilisateur</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      [(ngModel)]="signupData.username"
+      required
+      #username="ngModel"
+    />
+    <div *ngIf="username.invalid && username.touched" style="color: red;">
+      Le nom d'utilisateur est requis.
+    </div>
+  </div>
 
-<div *ngIf="message" [style.color]="message.includes('succès') ? 'green' : 'red'" style="margin-top: 10px;">
-  {{ message }}
-</div>
+  <div>
+    <label for="password">Mot de passe</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      [(ngModel)]="signupData.password"
+      required
+      #password="ngModel"
+    />
+    <div *ngIf="password.invalid && password.touched" style="color: red;">
+      Le mot de passe est requis.
+    </div>
+  </div>
+
+  <div>
+    <label for="roles">Rôle(s)</label>
+    <select
+      id="roles"
+      name="roles"
+      [(ngModel)]="signupData.roles"
+      multiple
+      required
+      #roles="ngModel"
+    >
+      <option value="PRE_SELLER">Pré-vendeur</option>
+      <option value="DIRECT_SELLER">Vendeur direct</option>
+      <option value="SUPERVISOR">Superviseur</option>
+      <option value="UNIT_MANAGER">Chef d’unité</option>
+    </select>
+    <div *ngIf="roles.invalid && roles.touched" style="color: red;">
+      Veuillez sélectionner au moins un rôle.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="signupForm.invalid">
+    S'inscrire
+  </button>
+</form>
