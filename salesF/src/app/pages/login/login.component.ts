@@ -25,25 +25,44 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() {
-    if (this.form.invalid) {
-      this.message = "Veuillez remplir tous les champs.";
-      return;
-    }
+ngOnInit() {
+  this.auth.getLoggedInObservable().subscribe(isLogged => {
+    console.log('Is logged in?', isLogged);
+  });
 
-    this.auth.login(this.form.value).subscribe({
-      next: (res) => {
-        localStorage.setItem('token', res.token); // stockage du token
+  this.auth.getRolesObservable().subscribe(roles => {
+    console.log('User roles:', roles);
+  });
+}
+  onSubmit() {
+  if (this.form.invalid) {
+    this.message = "Veuillez remplir tous les champs.";
+    return;
+  }
+  this.auth.login(this.form.value).subscribe({
+    next: (res) => {
+      if (res.token) {
+        this.auth.setToken(res.token);  // utilisation de la méthode du service
         this.message = "Connexion réussie !";
 
         setTimeout(() => {
-          this.router.navigate(['/clients']);  // redirection après connexion
+          this.router.navigate(['/products']);  // redirection après connexion
         }, 1000);
-
-      },
-      error: () => {
-        this.message = "Échec de la connexion, vérifiez vos identifiants.";
+      } else {
+        this.message = "Aucun token reçu du serveur.";
       }
-    });
-  }
+    },
+    error: () => {
+      this.message = "Échec de la connexion, vérifiez vos identifiants.";
+    }
+  });
+  
+}
+/*
+  logout() {
+  this.auth.logout();
+  this.message = "Déconnecté avec succès.";
+  this.form.reset();
+}*/
+
 }

@@ -11,5 +11,7 @@
   <input formControlName="routeId" type="number" placeholder="ID Route" />
   <button type="submit">Créer client</button>
 </form>
+<button (click)="logout()" style="margin-top: 10px;">Déconnexion</button>
+
 <p *ngIf="errorMessage" style="color:red;">{{ errorMessage }}</p>
 <p *ngIf="successMessage" style="color:green;">{{ successMessage }}</p>

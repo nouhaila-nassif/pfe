@@ -1,0 +1,27 @@
+<h2>Liste des Produits</h2>
+
+<ul>
+  <li *ngFor="let product of products">
+    <div *ngIf="editingProduct?.id !== product.id">
+      {{ product.name }} - {{ product.price | currency:'EUR' }} - {{ product.description }}
+     <!-- Bouton Modifier -->
+<button *ngIf="authService.getRoles().includes('ADMIN')" (click)="editProduct(product)">Modifier</button>
+
+<!-- Bouton Supprimer -->
+<button *ngIf="authService.getRoles().includes('ADMIN')" (click)="deleteProduct(product.id)">Supprimer</button> </div>
+
+    <div *ngIf="editingProduct && editingProduct.id === product.id">
+      <input [(ngModel)]="editingProduct.name" placeholder="Nom" />
+      <input [(ngModel)]="editingProduct.price" type="number" placeholder="Prix" />
+      <input [(ngModel)]="editingProduct.description" placeholder="Description" />
+      <button (click)="updateProduct()">Enregistrer</button>
+      <button (click)="cancelEdit()">Annuler</button>
+    </div>
+  </li>
+</ul>
+
+<h3>Ajouter un Produit</h3>
+<input [(ngModel)]="newProduct.name" placeholder="Nom" />
+<input [(ngModel)]="newProduct.price" type="number" placeholder="Prix" />
+<input [(ngModel)]="newProduct.description" placeholder="Description" />
+<button (click)="createProduct()">Créer</button>

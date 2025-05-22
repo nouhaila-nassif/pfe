@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-create',
@@ -20,9 +21,10 @@ export class ClientCreateComponent {
   constructor(
     private fb: FormBuilder,
     private clientService: ClientService,
-    private authService: AuthService
+    private authService: AuthService,
+     private router: Router
   ) {
-    this.roles = this.authService.getUserRoles();
+    this.roles = this.authService.getRoles();
 
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -70,6 +72,12 @@ onSubmit() {
       this.successMessage = '';
     }
   });
+}
+logout() {
+  this.authService.logout();          // Supprime le token ou effectue d'autres actions de déconnexion
+  this.successMessage = "Vous êtes déconnecté.";
+  this.form.reset();           // Réinitialise le formulaire si nécessaire
+  this.router.navigate(['/login']);  // Redirige vers la page login (optionnel)
 }
 
 }
